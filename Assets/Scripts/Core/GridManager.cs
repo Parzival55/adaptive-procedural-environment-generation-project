@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using UnityEngine;
+using System.Collections.Generic;
 
 public class GridManager : MonoBehaviour
 {
@@ -31,6 +33,17 @@ public class GridManager : MonoBehaviour
             }
         }
 
+        RoomGenerator roomGenerator = new RoomGenerator(width, height);
+
+        List<Room> rooms = roomGenerator.GenerateRooms(
+            10,
+            4,
+            8
+        );
+
+        Debug.Log($"Room Count: {rooms.Count}");
+
         Debug.Log("Grid Created");
     }
+
 }
