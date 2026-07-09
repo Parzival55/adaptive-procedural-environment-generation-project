@@ -23,6 +23,7 @@ public class GridManager : MonoBehaviour
 
     [Header("References")]
     [SerializeField] private GridRenderer gridRenderer;
+    [SerializeField] private StatisticsDisplay statisticsDisplay;
 
     public int Width => width;
     public int Height => height;
@@ -82,6 +83,10 @@ public class GridManager : MonoBehaviour
                 profile,
                 stopwatch.ElapsedMilliseconds);
 
+        statisticsDisplay.UpdateDisplay(
+            statistics,
+            SeedManager.CurrentSeed);
+
         // Output statistics
         UnityEngine.Debug.Log(
 $@"===== Generation Statistics =====
@@ -103,5 +108,6 @@ Wall Tiles: {statistics.WallTiles}
 Generation Time: {statistics.GenerationTime} ms
 
 ================================");
+
     }
 }
