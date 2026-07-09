@@ -9,16 +9,16 @@ public class RoomGenerator
     private readonly int mapWidth;
     private readonly int mapHeight;
 
-    /// <summary>
-    /// Generates a collection of procedural rooms.
-    /// </summary>
-   
     public RoomGenerator(int width, int height)
     {
         mapWidth = width;
         mapHeight = height;
     }
 
+    /// <summary>
+    /// Generates a collection of procedural rooms.
+    /// </summary>
+   
     public List<Room> GenerateRooms(
         int roomCount,
         int minSize,
@@ -29,8 +29,6 @@ public class RoomGenerator
         int attempts = 0;
         int maxAttempts = roomCount * 10;
 
-        //Double take on what rooms should look like - basic design or more complex design?
-
         while (rooms.Count < roomCount && attempts < maxAttempts)
         {
             attempts++;
@@ -38,10 +36,37 @@ public class RoomGenerator
             int width = Random.Range(minSize, maxSize + 1);
             int height = Random.Range(minSize, maxSize + 1);
 
+            // Choose room type
+            RoomShape shape;
+
+            float random = Random.value;
+
+            if (random < 0.15f)
+            {
+                shape = RoomShape.LShape;
+            }
+            else if (random < 0.30f)
+            {
+                shape = RoomShape.LargeHall;
+
+                // Make halls noticeably larger
+                width += 3;
+                height += 3;
+            }
+            else
+            {
+                shape = RoomShape.Rectangle;
+            }
+
             int x = Random.Range(1, mapWidth - width - 1);
             int z = Random.Range(1, mapHeight - height - 1);
 
-            Room newRoom = new Room(x, z, width, height);
+            Room newRoom = new Room(
+                x,
+                z,
+                width,
+                height,
+                shape);
 
             bool overlaps = false;
 
