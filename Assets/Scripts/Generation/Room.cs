@@ -9,8 +9,9 @@ public class Room
     public int Width;
     public int Height;
 
-    // New
     public RoomShape Shape;
+
+    public RoomFeature Feature = RoomFeature.None;
 
     public Room(int x, int z, int width, int height, RoomShape shape = RoomShape.Rectangle)
     {

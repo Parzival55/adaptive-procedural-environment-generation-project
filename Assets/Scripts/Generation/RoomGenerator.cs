@@ -52,6 +52,13 @@ public class RoomGenerator
                 shape = RoomShape.Rectangle;
             }
 
+            RoomFeature feature = RoomFeature.None;
+
+            if (shape == RoomShape.LargeHall)
+            {
+                feature = RoomFeature.Pillars;
+            }
+
             int x = Random.Range(1, mapWidth - width - 1);
             int z = Random.Range(1, mapHeight - height - 1);
 
@@ -61,6 +68,8 @@ public class RoomGenerator
                 width,
                 height,
                 shape);
+
+            newRoom.Feature = feature;
 
             bool overlaps = false;
 

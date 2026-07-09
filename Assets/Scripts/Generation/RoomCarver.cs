@@ -22,6 +22,8 @@ public static class RoomCarver
                 CarveRectangle(grid, room);
                 break;
         }
+
+        ApplyFeature(grid, room);
     }
 
     private static void CarveRectangle(GridCell[,] grid, Room room)
@@ -54,5 +56,26 @@ public static class RoomCarver
     private static void CarveLargeHall(GridCell[,] grid, Room room)
     {
         CarveRectangle(grid, room);
+    }
+
+    private static void ApplyFeature(GridCell[,] grid, Room room)
+    {
+        switch (room.Feature)
+        {
+            case RoomFeature.Pillars:
+                ApplyPillars(grid, room);
+                break;
+        }
+    }
+
+    private static void ApplyPillars(GridCell[,] grid, Room room)
+    {
+        for (int x = room.X + 2; x < room.X + room.Width - 2; x += 3)
+        {
+            for (int z = room.Z + 2; z < room.Z + room.Height - 2; z += 3)
+            {
+                grid[x, z].Type = CellType.Wall;
+            }
+        }
     }
 }
