@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Diagnostics;
 using UnityEngine;
 
 public class GridManager : MonoBehaviour
@@ -12,6 +13,14 @@ public class GridManager : MonoBehaviour
     [SerializeField] private int minimumRoomSize = 4;
     [SerializeField] private int maximumRoomSize = 8;
 
+    [Header("Adaptive Profile")]
+    [SerializeField] private GenerationProfile profile = GenerationProfile.Exploration;
+
+    [Header("Seed Settings")]
+    [SerializeField] private bool useRandomSeed = true;
+
+    [SerializeField] private int seed = 12345;
+
     [Header("References")]
     [SerializeField] private GridRenderer gridRenderer;
 
@@ -22,66 +31,77 @@ public class GridManager : MonoBehaviour
 
     private List<Room> rooms;
 
-    /// <summary>
-    /// Creates an empty logical grid.
-    /// </summary>
-    private void CreateGrid()
-    {
-        Grid = new GridCell[width, height];
+    private readonly GenerationPipeline generationPipeline = new GenerationPipeline();
 
-        for (int x = 0; x < width; x++)
-        {
-            for (int z = 0; z < height; z++)
-            {
-                Grid[x, z] = new GridCell(x, z);
-            }
-        }
-
-        Debug.Log("Grid Created");
-    }
-
-    /// <summary>
-    /// Generates a complete procedural environment.
-    /// </summary>
     public void GenerateEnvironment()
     {
+        UnityEngine.Debug.Log("Generating new environment...");
 
-        Debug.Log("Generating new environment...");
-        // Clear the previous environment
-        gridRenderer.ClearEnvironment();
+        Stopwatch stopwatch = new Stopwatch();
+        stopwatch.Start();
 
-        // Create a fresh logical grid
-        CreateGrid();
-
-        // Generate rooms
-        RoomGenerator roomGenerator = new RoomGenerator(width, height);
-
-        rooms = roomGenerator.GenerateRooms(
-            roomCount,
-            minimumRoomSize,
-            maximumRoomSize);
-
-        // Carve rooms into the grid
-        foreach (Room room in rooms)
+        // Initialise random seed
+        if (useRandomSeed)
         {
-            for (int x = room.X; x < room.X + room.Width; x++)
-            {
-                for (int z = room.Z; z < room.Z + room.Height; z++)
-                {
-                    Grid[x, z].Type = CellType.Floor;
-                }
-            }
+            SeedManager.GenerateRandomSeed();
+        }
+        else
+        {
+            SeedManager.SetSeed(seed);
         }
 
-        // Generate corridors
-        CorridorGenerator corridorGenerator = new CorridorGenerator();
-        corridorGenerator.GenerateCorridors(Grid, rooms);
+        // Get adaptive settings
+        GenerationSettings settings = ProfileManager.GetSettings(profile);
 
-        // Generate walls
-        WallGenerator wallGenerator = new WallGenerator();
-        wallGenerator.GenerateWalls(Grid);
+        // Apply adaptive settings
+        width = settings.GridWidth;
+        height = settings.GridHeight;
 
-        // Render the completed environment
+        roomCount = settings.RoomCount;
+        minimumRoomSize = settings.MinimumRoomSize;
+        maximumRoomSize = settings.MaximumRoomSize;
+
+        // Clear previous environment
+        gridRenderer.ClearEnvironment();
+
+        // Generate the environment
+        Grid = generationPipeline.Generate(
+            settings,
+            out rooms);
+
+        // Render the environment
         gridRenderer.RenderGrid();
+
+        stopwatch.Stop();
+
+        // Calculate generation statistics
+        GenerationStatistics statistics =
+            StatisticsCalculator.Calculate(
+                Grid,
+                rooms.Count,
+                profile,
+                stopwatch.ElapsedMilliseconds);
+
+        // Output statistics
+        UnityEngine.Debug.Log(
+$@"===== Generation Statistics =====
+
+Profile: {statistics.Profile}
+
+Seed: {SeedManager.CurrentSeed}
+
+Grid Size: {statistics.GridWidth} x {statistics.GridHeight}
+
+Rooms: {statistics.RoomCount}
+
+Floor Tiles: {statistics.FloorTiles}
+
+Corridor Tiles: {statistics.CorridorTiles}
+
+Wall Tiles: {statistics.WallTiles}
+
+Generation Time: {statistics.GenerationTime} ms
+
+================================");
     }
 }
