@@ -39,4 +39,16 @@ public class Room
                 Z + Height / 2);
         }
     }
+
+    public Vector2Int NorthDoor =>
+    new Vector2Int(X + Width / 2, Z + Height - 1);
+
+    public Vector2Int SouthDoor =>
+        new Vector2Int(X + Width / 2, Z);
+
+    public Vector2Int EastDoor =>
+        new Vector2Int(X + Width - 1, Z + Height / 2);
+
+    public Vector2Int WestDoor =>
+        new Vector2Int(X, Z + Height / 2);
 }
