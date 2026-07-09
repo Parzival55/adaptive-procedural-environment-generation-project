@@ -19,7 +19,26 @@ public class GridRenderer : MonoBehaviour
 
     public void RenderGrid()
     {
+
+        Debug.Log("GridRenderer using GridManager: " + gridManager.gameObject.name);
+
+        if (gridManager == null)
+        {
+            Debug.LogError("GridManager reference is missing!");
+            return;
+        }
+
+        if (gridManager.Grid == null)
+        {
+            Debug.LogError("Grid has not been created!");
+            return;
+        }
+
         ClearEnvironment();
+
+        // debugging object reference
+   
+    ClearEnvironment();
 
         for (int x = 0; x < gridManager.Width; x++)
         {

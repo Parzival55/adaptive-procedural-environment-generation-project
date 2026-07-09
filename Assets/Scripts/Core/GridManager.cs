@@ -7,27 +7,24 @@ public class GridManager : MonoBehaviour
     [SerializeField] private int width = 50;
     [SerializeField] private int height = 50;
 
+    [Header("Generation Settings")]
+    [SerializeField] private int roomCount = 10;
+    [SerializeField] private int minimumRoomSize = 4;
+    [SerializeField] private int maximumRoomSize = 8;
+
+    [Header("References")]
+    [SerializeField] private GridRenderer gridRenderer;
+
     public int Width => width;
     public int Height => height;
 
     public GridCell[,] Grid { get; private set; }
 
-    [Header("References")]
-    [SerializeField] private GridRenderer gridRenderer;
-
-    // Store the generated rooms so other systems can use them
     private List<Room> rooms;
 
-    private void Start()
-    {
-        CreateGrid();
-
-        gridRenderer.ClearEnvironment();  //replace old with new grid
-
-        gridRenderer.RenderGrid();
-    }
-
-
+    /// <summary>
+    /// Creates an empty logical grid.
+    /// </summary>
     private void CreateGrid()
     {
         Grid = new GridCell[width, height];
@@ -41,52 +38,30 @@ public class GridManager : MonoBehaviour
         }
 
         Debug.Log("Grid Created");
-  
-
-    // Generate rooms - depending on theme choices later on
-    RoomGenerator roomGenerator = new RoomGenerator(width, height);
-
-        rooms = roomGenerator.GenerateRooms(
-            roomCount: 10,
-            minSize: 4,
-            maxSize: 8
-        );
-
-        Debug.Log($"Generated {rooms.Count} rooms.");
-
-        // Carve rooms into the grid - rooms dependent on theme choices later on
-        foreach (Room room in rooms)
-        {
-            for (int x = room.X; x < room.X + room.Width; x++)
-            {
-                for (int z = room.Z; z < room.Z + room.Height; z++)
-                {
-                    Grid[x, z].Type = CellType.Floor;
-                }
-            }
-        }
-
-        // Connect rooms together
-        CorridorGenerator corridorGenerator = new CorridorGenerator();
-        corridorGenerator.GenerateCorridors(Grid, rooms);
-
-        // Generate walls around the rooms and corridors - Vary between themes later on
-        WallGenerator wallGenerator = new WallGenerator();
-        wallGenerator.GenerateWalls(Grid);
     }
 
+    /// <summary>
+    /// Generates a complete procedural environment.
+    /// </summary>
     public void GenerateEnvironment()
     {
+
+        Debug.Log("Generating new environment...");
+        // Clear the previous environment
+        gridRenderer.ClearEnvironment();
+
+        // Create a fresh logical grid
         CreateGrid();
 
+        // Generate rooms
         RoomGenerator roomGenerator = new RoomGenerator(width, height);
 
         rooms = roomGenerator.GenerateRooms(
-            roomCount: 10,
-            minSize: 4,
-            maxSize: 8
-        );
+            roomCount,
+            minimumRoomSize,
+            maximumRoomSize);
 
+        // Carve rooms into the grid
         foreach (Room room in rooms)
         {
             for (int x = room.X; x < room.X + room.Width; x++)
@@ -98,12 +73,15 @@ public class GridManager : MonoBehaviour
             }
         }
 
+        // Generate corridors
         CorridorGenerator corridorGenerator = new CorridorGenerator();
         corridorGenerator.GenerateCorridors(Grid, rooms);
 
+        // Generate walls
         WallGenerator wallGenerator = new WallGenerator();
         wallGenerator.GenerateWalls(Grid);
 
+        // Render the completed environment
         gridRenderer.RenderGrid();
     }
 }

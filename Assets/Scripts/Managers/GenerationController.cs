@@ -11,6 +11,8 @@ public class GenerationController : MonoBehaviour
 
     public void GenerateEnvironment()
     {
+        //Debug.Log("Generate button pressed!");
+
         gridManager.GenerateEnvironment();
     }
 }
