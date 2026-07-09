@@ -7,35 +7,49 @@ public class GridRenderer : MonoBehaviour
 
     [Header("Prefabs")]
     [SerializeField] private GameObject floorPrefab;
+    [SerializeField] private GameObject wallPrefab;
 
-    public void RenderGrid()
+    public void ClearEnvironment()
     {
-        // Clear previous generation
         foreach (Transform child in transform)
         {
             Destroy(child.gameObject);
         }
+    }
 
-        // Render only floor cells
+    public void RenderGrid()
+    {
+        ClearEnvironment();
+
         for (int x = 0; x < gridManager.Width; x++)
         {
             for (int z = 0; z < gridManager.Height; z++)
             {
                 GridCell cell = gridManager.Grid[x, z];
 
-                if (cell.Type != CellType.Floor &&
-                    cell.Type != CellType.Corridor)
+                GameObject prefab = null;
+                Vector3 position = new Vector3(x, 0, z);
+
+                switch (cell.Type)
                 {
-                    continue;
+                    case CellType.Floor:
+                    case CellType.Corridor:
+                        prefab = floorPrefab;
+                        break;
+
+                    case CellType.Wall:
+                        prefab = wallPrefab;
+                        break;
                 }
 
-                GameObject tile = Instantiate(
-                    floorPrefab,
-                    new Vector3(x, 0f, z),
+                if (prefab == null)
+                    continue;
+
+                Instantiate(
+                    prefab,
+                    position,
                     Quaternion.identity,
                     transform);
-
-                tile.name = $"Floor ({x}, {z})";
             }
         }
     }

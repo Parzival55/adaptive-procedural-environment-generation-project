@@ -13,7 +13,7 @@ public class GridManager : MonoBehaviour
     public GridCell[,] Grid { get; private set; }
 
     [Header("References")]
-    [SerializeField] private GridRenderer renderer;
+    [SerializeField] private GridRenderer gridRenderer;
 
     // Store the generated rooms so other systems can use them
     private List<Room> rooms;
@@ -22,12 +22,14 @@ public class GridManager : MonoBehaviour
     {
         CreateGrid();
 
-        renderer.RenderGrid();
+        gridRenderer.ClearEnvironment();  //replace old with new grid
+
+        gridRenderer.RenderGrid();
     }
+
 
     private void CreateGrid()
     {
-        // Create the grid
         Grid = new GridCell[width, height];
 
         for (int x = 0; x < width; x++)
@@ -39,9 +41,10 @@ public class GridManager : MonoBehaviour
         }
 
         Debug.Log("Grid Created");
+  
 
-        // Generate rooms - depending on theme choices later on
-        RoomGenerator roomGenerator = new RoomGenerator(width, height);
+    // Generate rooms - depending on theme choices later on
+    RoomGenerator roomGenerator = new RoomGenerator(width, height);
 
         rooms = roomGenerator.GenerateRooms(
             roomCount: 10,
@@ -66,5 +69,41 @@ public class GridManager : MonoBehaviour
         // Connect rooms together
         CorridorGenerator corridorGenerator = new CorridorGenerator();
         corridorGenerator.GenerateCorridors(Grid, rooms);
+
+        // Generate walls around the rooms and corridors - Vary between themes later on
+        WallGenerator wallGenerator = new WallGenerator();
+        wallGenerator.GenerateWalls(Grid);
+    }
+
+    public void GenerateEnvironment()
+    {
+        CreateGrid();
+
+        RoomGenerator roomGenerator = new RoomGenerator(width, height);
+
+        rooms = roomGenerator.GenerateRooms(
+            roomCount: 10,
+            minSize: 4,
+            maxSize: 8
+        );
+
+        foreach (Room room in rooms)
+        {
+            for (int x = room.X; x < room.X + room.Width; x++)
+            {
+                for (int z = room.Z; z < room.Z + room.Height; z++)
+                {
+                    Grid[x, z].Type = CellType.Floor;
+                }
+            }
+        }
+
+        CorridorGenerator corridorGenerator = new CorridorGenerator();
+        corridorGenerator.GenerateCorridors(Grid, rooms);
+
+        WallGenerator wallGenerator = new WallGenerator();
+        wallGenerator.GenerateWalls(Grid);
+
+        gridRenderer.RenderGrid();
     }
 }
