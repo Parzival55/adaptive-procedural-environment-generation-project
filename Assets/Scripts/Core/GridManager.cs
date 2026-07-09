@@ -18,10 +18,12 @@ public class GridManager : MonoBehaviour
 
     [Header("Seed Settings")]
     [SerializeField] private bool useRandomSeed = true;
+
     [SerializeField] private int seed = 12345;
 
     [Header("References")]
     [SerializeField] private GridRenderer gridRenderer;
+
     [SerializeField] private StatisticsDisplay statisticsDisplay;
 
     public int Width => width;
@@ -33,6 +35,8 @@ public class GridManager : MonoBehaviour
 
     private readonly GenerationPipeline generationPipeline = new GenerationPipeline();
 
+    public GenerationProfile CurrentProfile => profile;
+
     public GenerationStatistics GenerateEnvironment(bool render = true)
     {
         UnityEngine.Debug.Log("Generating new environment...");
@@ -42,14 +46,18 @@ public class GridManager : MonoBehaviour
 
         // Initialise seed
         if (useRandomSeed)
+        {
             SeedManager.GenerateRandomSeed();
+        }
         else
+        {
             SeedManager.SetSeed(seed);
+        }
 
         // Get adaptive settings
         GenerationSettings settings = ProfileManager.GetSettings(profile);
 
-        // Apply settings
+        // Apply adaptive settings
         width = settings.GridWidth;
         height = settings.GridHeight;
 
@@ -57,18 +65,22 @@ public class GridManager : MonoBehaviour
         minimumRoomSize = settings.MinimumRoomSize;
         maximumRoomSize = settings.MaximumRoomSize;
 
-        // Clear previous environment only if rendering
+        // Clear previous environment
         if (render)
+        {
             gridRenderer.ClearEnvironment();
+        }
 
         // Generate environment
         Grid = generationPipeline.Generate(
             settings,
             out rooms);
 
-        // Render only if requested
+        // Render environment
         if (render)
+        {
             gridRenderer.RenderGrid();
+        }
 
         stopwatch.Stop();
 
@@ -80,13 +92,26 @@ public class GridManager : MonoBehaviour
                 profile,
                 stopwatch.ElapsedMilliseconds);
 
-        // Update UI only if rendering
+        // Update statistics overlay
         if (render && statisticsDisplay != null)
         {
             statisticsDisplay.UpdateDisplay(
                 statistics,
                 SeedManager.CurrentSeed);
         }
+
+        // -----------------------------
+        // Export layout automatically
+        // -----------------------------
+        LayoutData layout =
+            LayoutConverter.Convert(
+                Grid,
+                SeedManager.CurrentSeed,
+                profile);
+
+        LayoutExporter.Export(
+            layout,
+            "LatestLayout");
 
         // Console output
         UnityEngine.Debug.Log(

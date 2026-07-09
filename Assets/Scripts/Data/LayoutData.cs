@@ -1,4 +1,3 @@
-using UnityEngine;
 using System;
 using System.Collections.Generic;
 
@@ -12,5 +11,5 @@ public class LayoutData
 
     public GenerationProfile Profile;
 
-    public List<CellData> Cells = new List<CellData>();
+    public List<CellData> Cells = new();
 }
