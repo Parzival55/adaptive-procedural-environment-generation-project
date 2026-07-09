@@ -34,13 +34,7 @@ public class GenerationPipeline
         // Carve rooms
         foreach (Room room in rooms)
         {
-            for (int x = room.X; x < room.X + room.Width; x++)
-            {
-                for (int z = room.Z; z < room.Z + room.Height; z++)
-                {
-                    grid[x, z].Type = CellType.Floor;
-                }
-            }
+            RoomCarver.CarveRoom(grid, room);
         }
 
         // Corridors
