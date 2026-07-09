@@ -24,6 +24,9 @@ public class GridManager : MonoBehaviour
     [SerializeField] private GridRenderer gridRenderer;
     [SerializeField] private StatisticsDisplay statisticsDisplay;
 
+    [Header("Generation Request")]
+    [SerializeField] private GenerationRequest request;
+
     public int Width => width;
     public int Height => height;
 
@@ -35,16 +38,35 @@ public class GridManager : MonoBehaviour
 
     public GenerationStatistics GenerateEnvironment(bool render = true)
     {
+
+        EnvironmentPlanner planner = new EnvironmentPlanner();
+
+        GameplayDefinition gameplay = null;
+
+        if (request != null)
+        {
+            gameplay = request.Gameplay;
+        }
+
+        EnvironmentPlan plan =
+            planner.CreatePlan(gameplay);
+
+        PlanningDebugger.Print(plan);
+
         UnityEngine.Debug.Log("Generating new environment...");
 
         Stopwatch stopwatch = new Stopwatch();
         stopwatch.Start();
 
         // Initialise seed
-        if (useRandomSeed)
+        if (request.UseRandomSeed)
+        {
             SeedManager.GenerateRandomSeed();
+        }
         else
-            SeedManager.SetSeed(seed);
+        {
+            SeedManager.SetSeed(request.Seed);
+        }
 
         // Get adaptive settings
         GenerationSettings settings = ProfileManager.GetSettings(profile);

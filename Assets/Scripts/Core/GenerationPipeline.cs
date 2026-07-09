@@ -20,24 +20,65 @@ public class GenerationPipeline
             }
         }
 
-        // Generate rooms
-        RoomGenerator roomGenerator =
-            new RoomGenerator(
-                settings.GridWidth,
-                settings.GridHeight);
+        // -----------------------------
+        // Create a default gameplay definition
+        // (Temporary until requests are fully integrated)
+        // -----------------------------
 
-        rooms = roomGenerator.GenerateRooms(
-            settings.RoomCount,
-            settings.MinimumRoomSize,
-            settings.MaximumRoomSize);
+        GameplayDefinition gameplay =
+            ScriptableObject.CreateInstance<GameplayDefinition>();
 
+        gameplay.GenerateSpawn = true;
+        gameplay.GenerateExit = false;
+        gameplay.GenerateObjective = false;
+        gameplay.GenerateRewardAreas = true;
+        gameplay.GenerateHubSpaces = true;
+        gameplay.GenerateLandmarks = true;
+
+        gameplay.AllowBranches = true;
+        gameplay.AllowLoops = true;
+
+        gameplay.MinimumSpaces = settings.RoomCount - 2;
+        gameplay.MaximumSpaces = settings.RoomCount + 2;
+
+        // -----------------------------
+        //        logical plan
+        // -----------------------------
+
+        EnvironmentPlanner planner =
+            new EnvironmentPlanner();
+
+        EnvironmentPlan plan =
+            planner.CreatePlan(gameplay);
+
+        // Debug
+        PlanningDebugger.Print(plan);
+
+        // -----------------------------
+        // Build rooms from the plan
+        // -----------------------------
+
+        EnvironmentBuilder builder =
+            new EnvironmentBuilder();
+
+        rooms = builder.Build(
+            plan,
+            settings.GridWidth,
+            settings.GridHeight);
+
+        // -----------------------------
         // Carve rooms
+        // -----------------------------
+
         foreach (Room room in rooms)
         {
             RoomCarver.CarveRoom(grid, room);
         }
 
+        // -----------------------------
         // Corridors
+        // -----------------------------
+
         CorridorGenerator corridorGenerator =
             new CorridorGenerator();
 
@@ -45,7 +86,10 @@ public class GenerationPipeline
             grid,
             rooms);
 
+        // -----------------------------
         // Walls
+        // -----------------------------
+
         WallGenerator wallGenerator =
             new WallGenerator();
 
