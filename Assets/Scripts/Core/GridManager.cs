@@ -88,6 +88,16 @@ public class GridManager : MonoBehaviour
                 SeedManager.CurrentSeed);
         }
 
+        LayoutData layout =
+            LayoutConverter.Convert(
+              Grid,
+              SeedManager.CurrentSeed,
+              profile);
+
+        LayoutExporter.Export(
+            layout,
+            "LatestLayout");
+
         // Console output
         UnityEngine.Debug.Log(
 $@"===== Generation Statistics =====

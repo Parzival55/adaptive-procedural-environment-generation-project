@@ -1,7 +1,6 @@
 using UnityEngine;
 using System;
 
-[Serializable]
 public class CellData
 {
     public int X;
