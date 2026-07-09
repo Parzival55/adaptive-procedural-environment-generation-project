@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using UnityEngine;
-using System.Collections.Generic;
 
 public class GridManager : MonoBehaviour
 {
+    [Header("Grid Settings")]
     [SerializeField] private int width = 50;
     [SerializeField] private int height = 50;
 
@@ -12,17 +12,22 @@ public class GridManager : MonoBehaviour
 
     public GridCell[,] Grid { get; private set; }
 
+    [Header("References")]
     [SerializeField] private GridRenderer renderer;
 
-    void Start()
+    // Store the generated rooms so other systems can use them
+    private List<Room> rooms;
+
+    private void Start()
     {
         CreateGrid();
 
         renderer.RenderGrid();
     }
 
-    void CreateGrid()
+    private void CreateGrid()
     {
+        // Create the grid
         Grid = new GridCell[width, height];
 
         for (int x = 0; x < width; x++)
@@ -33,17 +38,33 @@ public class GridManager : MonoBehaviour
             }
         }
 
+        Debug.Log("Grid Created");
+
+        // Generate rooms - depending on theme choice later on
         RoomGenerator roomGenerator = new RoomGenerator(width, height);
 
-        List<Room> rooms = roomGenerator.GenerateRooms(
-            10,
-            4,
-            8
+        rooms = roomGenerator.GenerateRooms(
+            roomCount: 10,
+            minSize: 4,
+            maxSize: 8
         );
 
-        Debug.Log($"Room Count: {rooms.Count}");
+        Debug.Log($"Generated {rooms.Count} rooms.");
 
-        Debug.Log("Grid Created");
+        // Carve rooms into the grid - rooms dependent on theme choice later on
+        foreach (Room room in rooms)
+        {
+            for (int x = room.X; x < room.X + room.Width; x++)
+            {
+                for (int z = room.Z; z < room.Z + room.Height; z++)
+                {
+                    Grid[x, z].Type = CellType.Floor;
+                }
+            }
+        }
+
+        // Connect rooms together
+        CorridorGenerator corridorGenerator = new CorridorGenerator();
+        corridorGenerator.GenerateCorridors(Grid, rooms);
     }
-
 }
