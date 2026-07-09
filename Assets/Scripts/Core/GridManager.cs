@@ -18,7 +18,6 @@ public class GridManager : MonoBehaviour
 
     [Header("Seed Settings")]
     [SerializeField] private bool useRandomSeed = true;
-
     [SerializeField] private int seed = 12345;
 
     [Header("References")]
@@ -34,27 +33,23 @@ public class GridManager : MonoBehaviour
 
     private readonly GenerationPipeline generationPipeline = new GenerationPipeline();
 
-    public void GenerateEnvironment()
+    public GenerationStatistics GenerateEnvironment(bool render = true)
     {
         UnityEngine.Debug.Log("Generating new environment...");
 
         Stopwatch stopwatch = new Stopwatch();
         stopwatch.Start();
 
-        // Initialise random seed
+        // Initialise seed
         if (useRandomSeed)
-        {
             SeedManager.GenerateRandomSeed();
-        }
         else
-        {
             SeedManager.SetSeed(seed);
-        }
 
         // Get adaptive settings
         GenerationSettings settings = ProfileManager.GetSettings(profile);
 
-        // Apply adaptive settings
+        // Apply settings
         width = settings.GridWidth;
         height = settings.GridHeight;
 
@@ -62,20 +57,22 @@ public class GridManager : MonoBehaviour
         minimumRoomSize = settings.MinimumRoomSize;
         maximumRoomSize = settings.MaximumRoomSize;
 
-        // Clear previous environment
-        gridRenderer.ClearEnvironment();
+        // Clear previous environment only if rendering
+        if (render)
+            gridRenderer.ClearEnvironment();
 
-        // Generate the environment
+        // Generate environment
         Grid = generationPipeline.Generate(
             settings,
             out rooms);
 
-        // Render the environment
-        gridRenderer.RenderGrid();
+        // Render only if requested
+        if (render)
+            gridRenderer.RenderGrid();
 
         stopwatch.Stop();
 
-        // Calculate generation statistics
+        // Calculate statistics
         GenerationStatistics statistics =
             StatisticsCalculator.Calculate(
                 Grid,
@@ -83,11 +80,15 @@ public class GridManager : MonoBehaviour
                 profile,
                 stopwatch.ElapsedMilliseconds);
 
-        statisticsDisplay.UpdateDisplay(
-            statistics,
-            SeedManager.CurrentSeed);
+        // Update UI only if rendering
+        if (render && statisticsDisplay != null)
+        {
+            statisticsDisplay.UpdateDisplay(
+                statistics,
+                SeedManager.CurrentSeed);
+        }
 
-        // Output statistics
+        // Console output
         UnityEngine.Debug.Log(
 $@"===== Generation Statistics =====
 
@@ -109,5 +110,6 @@ Generation Time: {statistics.GenerationTime} ms
 
 ================================");
 
+        return statistics;
     }
 }
