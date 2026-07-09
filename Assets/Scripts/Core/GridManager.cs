@@ -2,29 +2,35 @@ using UnityEngine;
 
 public class GridManager : MonoBehaviour
 {
-    [Header("Grid Size")]
-    public int width = 50;
-    public int height = 50;
+    [SerializeField] private int width = 50;
+    [SerializeField] private int height = 50;
 
-    private GridCell[,] grid;
+    public int Width => width;
+    public int Height => height;
+
+    public GridCell[,] Grid { get; private set; }
+
+    [SerializeField] private GridRenderer renderer;
 
     void Start()
     {
         CreateGrid();
+
+        renderer.RenderGrid();
     }
 
     void CreateGrid()
     {
-        grid = new GridCell[width, height];
+        Grid = new GridCell[width, height];
 
         for (int x = 0; x < width; x++)
         {
             for (int z = 0; z < height; z++)
             {
-                grid[x, z] = new GridCell(x, z);
+                Grid[x, z] = new GridCell(x, z);
             }
         }
 
-        Debug.Log($"Grid Created: {width} x {height}");
+        Debug.Log("Grid Created");
     }
 }
