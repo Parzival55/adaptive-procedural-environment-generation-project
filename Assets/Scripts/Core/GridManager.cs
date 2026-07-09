@@ -40,7 +40,7 @@ public class GridManager : MonoBehaviour
 
         Debug.Log("Grid Created");
 
-        // Generate rooms - depending on theme choice later on
+        // Generate rooms - depending on theme choices later on
         RoomGenerator roomGenerator = new RoomGenerator(width, height);
 
         rooms = roomGenerator.GenerateRooms(
@@ -51,7 +51,7 @@ public class GridManager : MonoBehaviour
 
         Debug.Log($"Generated {rooms.Count} rooms.");
 
-        // Carve rooms into the grid - rooms dependent on theme choice later on
+        // Carve rooms into the grid - rooms dependent on theme choices later on
         foreach (Room room in rooms)
         {
             for (int x = room.X; x < room.X + room.Width; x++)

@@ -23,8 +23,11 @@ public class GridRenderer : MonoBehaviour
             {
                 GridCell cell = gridManager.Grid[x, z];
 
-                if (cell.Type != CellType.Floor)
+                if (cell.Type != CellType.Floor &&
+                    cell.Type != CellType.Corridor)
+                {
                     continue;
+                }
 
                 GameObject tile = Instantiate(
                     floorPrefab,
