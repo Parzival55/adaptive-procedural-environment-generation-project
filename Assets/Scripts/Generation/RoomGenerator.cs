@@ -1,11 +1,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Generates non-overlapping procedural rooms within the grid.
+/// </summary>
 public class RoomGenerator
 {
     private readonly int mapWidth;
     private readonly int mapHeight;
 
+    /// <summary>
+    /// Generates a collection of procedural rooms.
+    /// </summary>
+   
     public RoomGenerator(int width, int height)
     {
         mapWidth = width;
