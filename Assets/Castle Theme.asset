@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Castle Theme
   m_EditorClassIdentifier: Assembly-CSharp::EnvironmentTheme
   ThemeName: New Theme
-  FloorMaterial: {fileID: 0}
-  WallMaterial: {fileID: 0}
+  FloorPrefab: {fileID: 3891908200146587722, guid: 732f901be6361bd45989cb8196f683d2, type: 3}
+  WallPrefab: {fileID: 187976, guid: 564e49f56923de148b581d811733f251, type: 3}
   LargeHallChance: 0.15
   LShapeChance: 0.2
   PillarChance: 0.25

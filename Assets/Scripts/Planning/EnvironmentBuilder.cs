@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class EnvironmentBuilder
 {
-    private const int CellSpacing = 12;
+    private const int CellSpacing = 20;
 
     public List<Room> Build(
         EnvironmentPlan plan,
@@ -12,23 +12,16 @@ public class EnvironmentBuilder
     {
         List<Room> rooms = new List<Room>();
 
-        Dictionary<PlannedSpace, Room> builtRooms =
-            new Dictionary<PlannedSpace, Room>();
-
-        Queue<PlannedSpace> queue =
-            new Queue<PlannedSpace>();
-
-        HashSet<PlannedSpace> visited =
-            new HashSet<PlannedSpace>();
+        Queue<PlannedSpace> queue = new Queue<PlannedSpace>();
+        HashSet<PlannedSpace> visited = new HashSet<PlannedSpace>();
 
         if (plan.Spaces.Count == 0)
             return rooms;
 
         PlannedSpace start = plan.Spaces[0];
+        start.GridPosition = Vector2Int.zero;
 
         queue.Enqueue(start);
-
-        start.GridPosition = Vector2Int.zero;
 
         while (queue.Count > 0)
         {
@@ -41,21 +34,19 @@ public class EnvironmentBuilder
 
             Room room = CreateRoom(current);
 
-            room.X =
-                Mathf.Clamp(
-                    current.GridPosition.x * CellSpacing + 5,
-                    2,
-                    mapWidth - room.Width - 2);
+            room.X = Mathf.Clamp(
+                current.GridPosition.x * CellSpacing + 5,
+                2,
+                mapWidth - room.Width - 2);
 
-            room.Z =
-                Mathf.Clamp(
-                    current.GridPosition.y * CellSpacing + mapHeight / 2,
-                    2,
-                    mapHeight - room.Height - 2);
+            room.Z = Mathf.Clamp(
+                current.GridPosition.y * CellSpacing + mapHeight / 2,
+                2,
+                mapHeight - room.Height - 2);
+
+            room.Feature = ConvertFeature(current.Type);
 
             rooms.Add(room);
-
-            builtRooms.Add(current, room);
 
             int branchIndex = 0;
 
@@ -67,23 +58,13 @@ public class EnvironmentBuilder
                 Vector2Int offset;
 
                 if (branchIndex == 0)
-                {
-                    // Continue the main route
                     offset = Vector2Int.right;
-                }
                 else if (branchIndex % 2 == 1)
-                {
-                    // Branch upwards
                     offset = Vector2Int.up;
-                }
                 else
-                {
-                    // Branch downwards
                     offset = Vector2Int.down;
-                }
 
-                neighbour.GridPosition =
-                    current.GridPosition + offset;
+                neighbour.GridPosition = current.GridPosition + offset;
 
                 queue.Enqueue(neighbour);
 
@@ -96,51 +77,73 @@ public class EnvironmentBuilder
 
     private Room CreateRoom(PlannedSpace space)
     {
-        int width = 6;
-        int height = 6;
+        int width = 14;
+        int height = 14;
 
         RoomShape shape = RoomShape.Rectangle;
 
         switch (space.Type)
         {
             case SpaceType.Spawn:
-                width = 8;
-                height = 8;
+                width = 16;
+                height = 16;
                 break;
 
             case SpaceType.Standard:
-                width = Random.Range(5, 8);
-                height = Random.Range(5, 8);
+                width = Random.Range(12, 18);
+                height = Random.Range(12, 18);
                 break;
 
             case SpaceType.Hub:
-                width = 10;
-                height = 10;
+                width = 24;
+                height = 24;
                 shape = RoomShape.LargeHall;
                 break;
 
             case SpaceType.Reward:
-                width = 8;
-                height = 8;
+                width = 16;
+                height = 16;
                 shape = RoomShape.LShape;
                 break;
 
             case SpaceType.Objective:
-                width = 9;
-                height = 9;
+                width = 18;
+                height = 18;
                 break;
 
             case SpaceType.Exit:
-                width = 8;
-                height = 8;
+                width = 16;
+                height = 16;
                 break;
         }
 
-        return new Room(
-            0,
-            0,
-            width,
-            height,
-            shape);
+        return new Room(0, 0, width, height, shape);
+    }
+
+    private RoomFeature ConvertFeature(SpaceType type)
+    {
+        switch (type)
+        {
+            case SpaceType.Spawn:
+                return RoomFeature.Spawn;
+
+            case SpaceType.Standard:
+                return RoomFeature.Standard;
+
+            case SpaceType.Hub:
+                return RoomFeature.Hub;
+
+            case SpaceType.Reward:
+                return RoomFeature.Reward;
+
+            case SpaceType.Objective:
+                return RoomFeature.Objective;
+
+            case SpaceType.Exit:
+                return RoomFeature.Exit;
+
+            default:
+                return RoomFeature.None;
+        }
     }
 }

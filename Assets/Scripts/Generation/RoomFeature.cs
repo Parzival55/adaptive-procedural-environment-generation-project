@@ -1,16 +1,17 @@
+using System;
 using UnityEngine;
-
 public enum RoomFeature
 {
     None,
 
-    Pillars,
-
-    Chest,
-
     Spawn,
-
+    Standard,
+    Hub,
+    Reward,
+    Objective,
     Exit,
 
+    Pillars,
+    Chest,
     Hazard
 }
