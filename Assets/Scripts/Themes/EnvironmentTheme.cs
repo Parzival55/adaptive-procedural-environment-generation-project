@@ -77,6 +77,23 @@ public class EnvironmentTheme : ScriptableObject
     public bool UseHazards = true;
     public bool UseProps = true;
 
+    [Header("Adaptive Room Features")]
+
+    [Tooltip("Placed in Spawn rooms.")]
+    public GameObject[] SpawnRoomPrefabs;
+
+    [Tooltip("Placed in Hub rooms.")]
+    public GameObject[] HubRoomPrefabs;
+
+    [Tooltip("Placed in Reward rooms.")]
+    public GameObject[] RewardRoomPrefabs;
+
+    [Tooltip("Placed in Objective rooms.")]
+    public GameObject[] ObjectiveRoomPrefabs;
+
+    [Tooltip("Placed in Exit rooms.")]
+    public GameObject[] ExitRoomPrefabs;
+
     [Header("Preview")]
     public Color PreviewColour = Color.white;
 

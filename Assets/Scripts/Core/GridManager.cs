@@ -30,9 +30,10 @@ public class GridManager : MonoBehaviour
     public int Width => width;
     public int Height => height;
 
-    public GridCell[,] Grid { get; private set; }
+    
     public List<Room> Rooms => rooms;
 
+    public GridCell[,] Grid { get; private set; }
     public void SetProfile(GenerationProfile newProfile)
     {
         profile = newProfile;

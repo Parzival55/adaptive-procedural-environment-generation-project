@@ -142,7 +142,19 @@ public class GridRenderer : MonoBehaviour
             currentTheme,
             transform,
             cellSize);
-    }
+
+        ThemeFeatureSpawner.SpawnFeatures(
+            gridManager.Rooms,
+            currentTheme,
+            transform,
+            cellSize);
+
+        ThemeFloorLighting.SpawnFloorLights(
+           gridManager.Rooms,
+           currentTheme,
+           transform,
+           cellSize);
+        }
 
     private bool IsCorridorEnd(GridCell[,] grid, int x, int z)
     {
