@@ -5,9 +5,12 @@ public class GridRenderer : MonoBehaviour
     [Header("References")]
     [SerializeField] private GridManager gridManager;
 
-    [Header("Prefabs")]
-    [SerializeField] private GameObject floorPrefab;
-    [SerializeField] private GameObject wallPrefab;
+    [SerializeField] private EnvironmentTheme currentTheme;
+
+    public void SetTheme(EnvironmentTheme theme)
+    {
+        currentTheme = theme;
+    }
 
     public void ClearEnvironment()
     {
@@ -19,26 +22,25 @@ public class GridRenderer : MonoBehaviour
 
     public void RenderGrid()
     {
-
-        Debug.Log("GridRenderer using GridManager: " + gridManager.gameObject.name);
-
         if (gridManager == null)
         {
-            Debug.LogError("GridManager reference is missing!");
+            Debug.LogError("GridManager reference missing.");
             return;
         }
 
         if (gridManager.Grid == null)
         {
-            Debug.LogError("Grid has not been created!");
+            Debug.LogError("Grid has not been generated.");
+            return;
+        }
+
+        if (currentTheme == null)
+        {
+            Debug.LogError("No Environment Theme assigned.");
             return;
         }
 
         ClearEnvironment();
-
-        // debugging object reference
-   
-    ClearEnvironment();
 
         for (int x = 0; x < gridManager.Width; x++)
         {
@@ -47,17 +49,16 @@ public class GridRenderer : MonoBehaviour
                 GridCell cell = gridManager.Grid[x, z];
 
                 GameObject prefab = null;
-                Vector3 position = new Vector3(x, 0, z);
 
                 switch (cell.Type)
                 {
                     case CellType.Floor:
                     case CellType.Corridor:
-                        prefab = floorPrefab;
+                        prefab = currentTheme.FloorPrefab;
                         break;
 
                     case CellType.Wall:
-                        prefab = wallPrefab;
+                        prefab = currentTheme.WallPrefab;
                         break;
                 }
 
@@ -66,7 +67,7 @@ public class GridRenderer : MonoBehaviour
 
                 Instantiate(
                     prefab,
-                    position,
+                    new Vector3(x, 0, z),
                     Quaternion.identity,
                     transform);
             }

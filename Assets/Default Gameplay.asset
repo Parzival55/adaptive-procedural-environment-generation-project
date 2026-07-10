@@ -15,9 +15,9 @@ MonoBehaviour:
   GenerateSpawn: 1
   GenerateExit: 0
   GenerateObjective: 0
-  GenerateRewardAreas: 0
+  GenerateRewardAreas: 1
   GenerateHubSpaces: 1
-  GenerateLandmarks: 0
+  GenerateLandmarks: 1
   AllowBranches: 1
   AllowLoops: 1
   Connectivity: 0.5

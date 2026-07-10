@@ -9,8 +9,8 @@ public class EnvironmentTheme : ScriptableObject
     public string ThemeName = "New Theme";
 
     [Header("Materials")]
-    public Material FloorMaterial;
-    public Material WallMaterial;
+    public GameObject FloorPrefab;
+    public GameObject WallPrefab;
 
     [Header("Generation")]
     [Range(0f, 1f)]
