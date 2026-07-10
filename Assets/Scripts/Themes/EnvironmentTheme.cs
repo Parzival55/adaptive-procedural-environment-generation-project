@@ -17,7 +17,6 @@ public class EnvironmentTheme : ScriptableObject
 
     [Header("Corridors")]
     public GameObject CorridorFloorPrefab;
-
     public GameObject CorridorWallPrefab;
 
     [Tooltip("Placed where corridors meet rooms.")]
@@ -30,6 +29,10 @@ public class EnvironmentTheme : ScriptableObject
 
     [Range(0f, 1f)]
     public float SecondaryWallChance = 0.15f;
+
+    [Header("Rendering")]
+    [Range(0.5f, 2f)]
+    public float WallHeightMultiplier = 1f;
 
     [Header("Room Features")]
     public GameObject PillarPrefab;

@@ -12,9 +12,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a6e83636caa72a49a7bdd57179797e2, type: 3}
   m_Name: Castle Theme
   m_EditorClassIdentifier: Assembly-CSharp::EnvironmentTheme
-  ThemeName: New Theme
-  FloorPrefab: {fileID: 3891908200146587722, guid: 732f901be6361bd45989cb8196f683d2, type: 3}
-  WallPrefab: {fileID: 187976, guid: 564e49f56923de148b581d811733f251, type: 3}
+  ThemeName: Medieval Theme
+  FloorPrefab: {fileID: 919132149155446097, guid: 6d34204dfc5086f40b294171f9c92e89, type: 3}
+  SecondaryFloorPrefab: {fileID: 919132149155446097, guid: 5c513aa6a1978fa4397121b969aab9d4, type: 3}
+  SecondaryFloorChance: 0.15
+  CorridorFloorPrefab: {fileID: 919132149155446097, guid: 887dfd21235cf0a4e80d99ae93c17030, type: 3}
+  CorridorWallPrefab: {fileID: 919132149155446097, guid: d31a4aa860be75547ad4db81243bb68c, type: 3}
+  GatewayPrefab: {fileID: 919132149155446097, guid: 34714faac2cf38a42a8f87bccfb61438, type: 3}
+  WallPrefab: {fileID: 919132149155446097, guid: d53e1d1174857fd489619f1bcbf0c853, type: 3}
+  SecondaryWallPrefab: {fileID: 919132149155446097, guid: a5dfa41ccfa39d24c9140b0660a6a7af, type: 3}
+  CornerWallPrefab: {fileID: 1364478132116189653, guid: 26161e24fe31f00418cec9c169102ad2, type: 3}
+  SecondaryWallChance: 0.15
+  WallHeightMultiplier: 1
+  PillarPrefab: {fileID: 919132149155446097, guid: d116b9924d517c74e9bb3519c1e52588, type: 3}
+  DecorationPrefabs:
+  - {fileID: 919132149155446097, guid: dbcec71fb5c7cdf428540e3d3c44a949, type: 3}
+  - {fileID: 919132149155446097, guid: e7e0cae0764986c4bb3c71881be5891a, type: 3}
+  - {fileID: 919132149155446097, guid: 35957628306f2f749a7273db12bead88, type: 3}
+  - {fileID: 919132149155446097, guid: 915adf463c1bf2d44b57fe2a86ec9785, type: 3}
+  - {fileID: 919132149155446097, guid: b69df8171e7244a42bea51ce3cdb52d3, type: 3}
+  - {fileID: 919132149155446097, guid: 5c6fbc6c124127546994fd652080a4a1, type: 3}
   LargeHallChance: 0.15
   LShapeChance: 0.2
   PillarChance: 0.25

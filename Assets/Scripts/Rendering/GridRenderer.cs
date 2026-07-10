@@ -95,11 +95,20 @@ public class GridRenderer : MonoBehaviour
                     0f,
                     z * cellSize);
 
-                Instantiate(
+                GameObject instance = Instantiate(
                     prefab,
                     position,
                     rotation,
                     transform);
+
+                if (cell.Type == CellType.Wall)
+                {
+                    Vector3 scale = instance.transform.localScale;
+
+                    scale.y *= currentTheme.WallHeightMultiplier;
+
+                    instance.transform.localScale = scale;
+                }
 
                 if (cell.Type == CellType.Corridor &&
                     currentTheme.GatewayPrefab != null &&

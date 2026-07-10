@@ -12,14 +12,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a6e83636caa72a49a7bdd57179797e2, type: 3}
   m_Name: Cave Theme
   m_EditorClassIdentifier: Assembly-CSharp::EnvironmentTheme
-  ThemeName: New Theme
-  FloorPrefab: {fileID: 0}
-  WallPrefab: {fileID: 0}
-  PillarPrefab: {fileID: 0}
-  DecorationPrefabs: []
+  ThemeName: Cave Theme
+  FloorPrefab: {fileID: 919132149155446097, guid: 6e0d424f911da6247b544cd350dec079, type: 3}
+  SecondaryFloorPrefab: {fileID: 919132149155446097, guid: c5d08affb361790488a483036a01a0a9, type: 3}
+  SecondaryFloorChance: 0.15
+  CorridorFloorPrefab: {fileID: 0}
+  CorridorWallPrefab: {fileID: 919132149155446097, guid: 4b68e1632af2f5647af5fb51161665e4, type: 3}
+  GatewayPrefab: {fileID: 919132149155446097, guid: 8182da340a279174bb12166c74b3ba58, type: 3}
+  WallPrefab: {fileID: 919132149155446097, guid: fcab76192ce9b9f4988d81aba6ee68d9, type: 3}
+  SecondaryWallPrefab: {fileID: 919132149155446097, guid: 6cf4454f93c77434ca720bbc0724c81a, type: 3}
+  CornerWallPrefab: {fileID: 919132149155446097, guid: 5232945754125d34e881426c1473378f, type: 3}
+  SecondaryWallChance: 0.15
+  WallHeightMultiplier: 1.346
+  PillarPrefab: {fileID: 919132149155446097, guid: 7437ae57e7a8311439c07fdf85887733, type: 3}
+  DecorationPrefabs:
+  - {fileID: 919132149155446097, guid: a8fd9a2f511214b4091ed8c08ec4f1c0, type: 3}
+  - {fileID: 919132149155446097, guid: a7f654377bf9bdc44a5091bf1c58f39b, type: 3}
+  - {fileID: 919132149155446097, guid: 5e77d031c1aad2640b080e7027f1e892, type: 3}
+  - {fileID: 919132149155446097, guid: 07706f979d418d94ea308a8b5d736af3, type: 3}
+  - {fileID: 919132149155446097, guid: 1ba0cf48eeb4bec43b190f04beeba84c, type: 3}
   LargeHallChance: 0.15
-  LShapeChance: 0.2
-  PillarChance: 0.25
+  LShapeChance: 0.269
+  PillarChance: 0.454
   UsePillars: 1
   UseHazards: 1
   UseProps: 1

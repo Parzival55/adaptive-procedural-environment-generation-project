@@ -6,5 +6,6 @@ public enum GenerationProfile
     Combat,
     Survival,
     Puzzle,
-    Sandbox
+    Sandbox,
+    Extraction
 }

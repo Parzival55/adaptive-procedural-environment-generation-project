@@ -32,6 +32,11 @@ public class GridManager : MonoBehaviour
 
     public GridCell[,] Grid { get; private set; }
 
+    public void SetProfile(GenerationProfile newProfile)
+    {
+        profile = newProfile;
+    }
+
     private List<Room> rooms;
 
     private readonly GenerationPipeline generationPipeline = new GenerationPipeline();
