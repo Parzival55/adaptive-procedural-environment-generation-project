@@ -1,9 +1,13 @@
-using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class PlannedSpace
 {
     public SpaceType Type;
+
+    public Vector2Int GridPosition;
+
+    public bool PositionAssigned = false;
 
     public List<PlannedSpace> Connections =
         new List<PlannedSpace>();

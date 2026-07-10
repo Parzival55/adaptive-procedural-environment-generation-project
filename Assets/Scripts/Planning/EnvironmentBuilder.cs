@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class EnvironmentBuilder
 {
+    private const int CellSpacing = 12;
+
     public List<Room> Build(
         EnvironmentPlan plan,
         int mapWidth,
@@ -10,87 +12,135 @@ public class EnvironmentBuilder
     {
         List<Room> rooms = new List<Room>();
 
-        const int spacing = 3;
+        Dictionary<PlannedSpace, Room> builtRooms =
+            new Dictionary<PlannedSpace, Room>();
 
-        int currentX = spacing;
-        int currentZ = spacing;
+        Queue<PlannedSpace> queue =
+            new Queue<PlannedSpace>();
 
-        int tallestRoomInRow = 0;
+        HashSet<PlannedSpace> visited =
+            new HashSet<PlannedSpace>();
 
-        foreach (PlannedSpace space in plan.Spaces)
+        if (plan.Spaces.Count == 0)
+            return rooms;
+
+        PlannedSpace start = plan.Spaces[0];
+
+        queue.Enqueue(start);
+
+        start.GridPosition = Vector2Int.zero;
+
+        while (queue.Count > 0)
         {
-            RoomShape shape = RoomShape.Rectangle;
+            PlannedSpace current = queue.Dequeue();
 
-            int width = 6;
-            int height = 6;
+            if (visited.Contains(current))
+                continue;
 
-            switch (space.Type)
-            {
-                case SpaceType.Spawn:
-                    width = 8;
-                    height = 8;
-                    break;
+            visited.Add(current);
 
-                case SpaceType.Standard:
-                    width = Random.Range(5, 8);
-                    height = Random.Range(5, 8);
-                    break;
+            Room room = CreateRoom(current);
 
-                case SpaceType.Hub:
-                    width = 10;
-                    height = 10;
-                    shape = RoomShape.LargeHall;
-                    break;
+            room.X =
+                Mathf.Clamp(
+                    current.GridPosition.x * CellSpacing + 5,
+                    2,
+                    mapWidth - room.Width - 2);
 
-                case SpaceType.Reward:
-                    width = 8;
-                    height = 8;
-                    shape = RoomShape.LShape;
-                    break;
-
-                case SpaceType.Objective:
-                    width = 9;
-                    height = 9;
-                    break;
-
-                case SpaceType.Exit:
-                    width = 8;
-                    height = 8;
-                    break;
-            }
-
-            // Move to the next row if the room won't fit.
-            if (currentX + width >= mapWidth - spacing)
-            {
-                currentX = spacing;
-                currentZ += tallestRoomInRow + spacing;
-
-                tallestRoomInRow = 0;
-            }
-
-            // Stop generating if we've run out of map.
-            if (currentZ + height >= mapHeight - spacing)
-            {
-                Debug.LogWarning(
-                    "EnvironmentBuilder: Map is full. Remaining planned spaces were skipped.");
-                break;
-            }
-
-            Room room = new Room(
-                currentX,
-                currentZ,
-                width,
-                height,
-                shape);
+            room.Z =
+                Mathf.Clamp(
+                    current.GridPosition.y * CellSpacing + mapHeight / 2,
+                    2,
+                    mapHeight - room.Height - 2);
 
             rooms.Add(room);
 
-            currentX += width + spacing;
+            builtRooms.Add(current, room);
 
-            if (height > tallestRoomInRow)
-                tallestRoomInRow = height;
+            int branchIndex = 0;
+
+            foreach (PlannedSpace neighbour in current.Connections)
+            {
+                if (visited.Contains(neighbour))
+                    continue;
+
+                Vector2Int offset;
+
+                if (branchIndex == 0)
+                {
+                    // Continue the main route
+                    offset = Vector2Int.right;
+                }
+                else if (branchIndex % 2 == 1)
+                {
+                    // Branch upwards
+                    offset = Vector2Int.up;
+                }
+                else
+                {
+                    // Branch downwards
+                    offset = Vector2Int.down;
+                }
+
+                neighbour.GridPosition =
+                    current.GridPosition + offset;
+
+                queue.Enqueue(neighbour);
+
+                branchIndex++;
+            }
         }
 
         return rooms;
+    }
+
+    private Room CreateRoom(PlannedSpace space)
+    {
+        int width = 6;
+        int height = 6;
+
+        RoomShape shape = RoomShape.Rectangle;
+
+        switch (space.Type)
+        {
+            case SpaceType.Spawn:
+                width = 8;
+                height = 8;
+                break;
+
+            case SpaceType.Standard:
+                width = Random.Range(5, 8);
+                height = Random.Range(5, 8);
+                break;
+
+            case SpaceType.Hub:
+                width = 10;
+                height = 10;
+                shape = RoomShape.LargeHall;
+                break;
+
+            case SpaceType.Reward:
+                width = 8;
+                height = 8;
+                shape = RoomShape.LShape;
+                break;
+
+            case SpaceType.Objective:
+                width = 9;
+                height = 9;
+                break;
+
+            case SpaceType.Exit:
+                width = 8;
+                height = 8;
+                break;
+        }
+
+        return new Room(
+            0,
+            0,
+            width,
+            height,
+            shape);
     }
 }

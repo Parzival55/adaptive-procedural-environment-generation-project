@@ -1,11 +1,10 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class EnvironmentPlanner
 {
     public EnvironmentPlan CreatePlan(GameplayDefinition gameplay)
     {
-        // If no Gameplay Definition has been assigned,
-        // create a sensible default.
         if (gameplay == null)
         {
             gameplay = ScriptableObject.CreateInstance<GameplayDefinition>();
@@ -15,94 +14,95 @@ public class EnvironmentPlanner
             gameplay.GenerateObjective = false;
             gameplay.GenerateRewardAreas = true;
             gameplay.GenerateHubSpaces = true;
-            gameplay.GenerateLandmarks = true;
 
-            gameplay.AllowBranches = true;
-            gameplay.AllowLoops = true;
-
-            gameplay.MinimumSpaces = 8;
-            gameplay.MaximumSpaces = 12;
+            gameplay.MinimumSpaces = 12;
+            gameplay.MaximumSpaces = 18;
         }
 
         EnvironmentPlan plan = new EnvironmentPlan();
 
-        PlannedSpace previous = null;
+        List<PlannedSpace> mainPath = new List<PlannedSpace>();
 
         // Spawn
-        if (gameplay.GenerateSpawn)
-        {
-            previous = new PlannedSpace(SpaceType.Spawn);
-            plan.Spaces.Add(previous);
-        }
+        PlannedSpace spawn = new PlannedSpace(SpaceType.Spawn);
+        plan.Spaces.Add(spawn);
+        mainPath.Add(spawn);
 
-        // Standard spaces
-        int count = Random.Range(
+        PlannedSpace previous = spawn;
+
+        int mainPathLength = Random.Range(
             gameplay.MinimumSpaces,
             gameplay.MaximumSpaces + 1);
 
-        for (int i = 0; i < count; i++)
+        int hubIndex = mainPathLength / 2;
+
+        for (int i = 0; i < mainPathLength; i++)
         {
-            PlannedSpace current =
-                new PlannedSpace(SpaceType.Standard);
+            SpaceType type = SpaceType.Standard;
 
-            if (previous != null)
-                previous.Connect(current);
+            if (gameplay.GenerateHubSpaces && i == hubIndex)
+                type = SpaceType.Hub;
 
-            plan.Spaces.Add(current);
+            PlannedSpace room = new PlannedSpace(type);
 
-            previous = current;
-        }
+            previous.Connect(room);
 
-        // Hub
-        PlannedSpace hub = null;
+            plan.Spaces.Add(room);
+            mainPath.Add(room);
 
-        if (gameplay.GenerateHubSpaces)
-        {
-            hub = new PlannedSpace(SpaceType.Hub);
-
-            if (previous != null)
-                previous.Connect(hub);
-
-            plan.Spaces.Add(hub);
-
-            previous = hub;
-        }
-
-        // Reward branch
-        if (gameplay.GenerateRewardAreas && hub != null)
-        {
-            PlannedSpace reward =
-                new PlannedSpace(SpaceType.Reward);
-
-            hub.Connect(reward);
-
-            plan.Spaces.Add(reward);
-        }
-
-        // Objective
-        if (gameplay.GenerateObjective)
-        {
-            PlannedSpace objective =
-                new PlannedSpace(SpaceType.Objective);
-
-            if (previous != null)
-                previous.Connect(objective);
-
-            plan.Spaces.Add(objective);
-
-            previous = objective;
+            previous = room;
         }
 
         // Exit
         if (gameplay.GenerateExit)
         {
-            PlannedSpace exit =
-                new PlannedSpace(SpaceType.Exit);
+            PlannedSpace exit = new PlannedSpace(SpaceType.Exit);
 
-            if (previous != null)
-                previous.Connect(exit);
+            previous.Connect(exit);
 
             plan.Spaces.Add(exit);
+        }
+
+        // Reward branches
+        if (gameplay.GenerateRewardAreas)
+        {
+            int branchCount = Mathf.Max(2, mainPathLength / 4);
+
+            for (int i = 0; i < branchCount; i++)
+            {
+                PlannedSpace parent =
+                    mainPath[Random.Range(2, mainPath.Count - 2)];
+
+                PlannedSpace branch =
+                    new PlannedSpace(SpaceType.Standard);
+
+                parent.Connect(branch);
+
+                plan.Spaces.Add(branch);
+
+                PlannedSpace reward =
+                    new PlannedSpace(SpaceType.Reward);
+
+                branch.Connect(reward);
+
+                plan.Spaces.Add(reward);
+            }
+        }
+
+        // Extra side rooms
+        int sideRooms = Mathf.Max(2, mainPathLength / 3);
+
+        for (int i = 0; i < sideRooms; i++)
+        {
+            PlannedSpace parent =
+                mainPath[Random.Range(1, mainPath.Count - 1)];
+
+            PlannedSpace side =
+                new PlannedSpace(SpaceType.Standard);
+
+            parent.Connect(side);
+
+            plan.Spaces.Add(side);
         }
 
         return plan;
