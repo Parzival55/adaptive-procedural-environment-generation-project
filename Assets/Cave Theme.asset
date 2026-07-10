@@ -19,7 +19,7 @@ MonoBehaviour:
   CorridorFloorPrefab: {fileID: 0}
   CorridorWallPrefab: {fileID: 919132149155446097, guid: 4b68e1632af2f5647af5fb51161665e4, type: 3}
   GatewayPrefab: {fileID: 919132149155446097, guid: 8182da340a279174bb12166c74b3ba58, type: 3}
-  WallPrefab: {fileID: 919132149155446097, guid: fcab76192ce9b9f4988d81aba6ee68d9, type: 3}
+  WallPrefab: {fileID: 919132149155446097, guid: 34aea74aaf0404d44bdacc4d2db10a92, type: 3}
   SecondaryWallPrefab: {fileID: 919132149155446097, guid: 6cf4454f93c77434ca720bbc0724c81a, type: 3}
   CornerWallPrefab: {fileID: 919132149155446097, guid: 5232945754125d34e881426c1473378f, type: 3}
   SecondaryWallChance: 0.15

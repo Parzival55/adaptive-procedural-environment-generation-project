@@ -95,6 +95,14 @@ public class GridRenderer : MonoBehaviour
                     0f,
                     z * cellSize);
 
+                // Theme-specific wall offset
+                if (cell.Type == CellType.Wall)
+                {
+                    position += rotation *
+                                Vector3.forward *
+                                currentTheme.WallForwardOffset;
+                }
+
                 GameObject instance = Instantiate(
                     prefab,
                     position,
@@ -108,6 +116,12 @@ public class GridRenderer : MonoBehaviour
                     scale.y *= currentTheme.WallHeightMultiplier;
 
                     instance.transform.localScale = scale;
+
+                    ThemeWallLighting.TryPlaceWallLight(
+                        currentTheme,
+                        transform,
+                        position,
+                        rotation);
                 }
 
                 if (cell.Type == CellType.Corridor &&
@@ -159,7 +173,6 @@ public class GridRenderer : MonoBehaviour
         return Quaternion.identity;
     }
 
-    // NEW WALL ROTATION
     private Quaternion GetWallRotation(GridCell[,] grid, int x, int z)
     {
         if (IsWalkable(grid, x, z + 1))

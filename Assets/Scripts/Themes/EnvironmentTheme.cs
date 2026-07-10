@@ -18,8 +18,6 @@ public class EnvironmentTheme : ScriptableObject
     [Header("Corridors")]
     public GameObject CorridorFloorPrefab;
     public GameObject CorridorWallPrefab;
-
-    [Tooltip("Placed where corridors meet rooms.")]
     public GameObject GatewayPrefab;
 
     [Header("Walls")]
@@ -27,6 +25,7 @@ public class EnvironmentTheme : ScriptableObject
     public GameObject SecondaryWallPrefab;
     public GameObject CornerWallPrefab;
 
+    [Tooltip("Chance of spawning a secondary wall variation.")]
     [Range(0f, 1f)]
     public float SecondaryWallChance = 0.15f;
 
@@ -34,10 +33,33 @@ public class EnvironmentTheme : ScriptableObject
     [Range(0.5f, 2f)]
     public float WallHeightMultiplier = 1f;
 
+    [Header("Wall Placement")]
+
+    [Tooltip("Moves wall meshes forwards/backwards to compensate for different pivots.")]
+    public float WallForwardOffset = 0f;
+
     [Header("Room Features")]
     public GameObject PillarPrefab;
 
+    [Header("Decorations")]
     public GameObject[] DecorationPrefabs;
+
+    [Header("Lighting")]
+
+    [Tooltip("Small room lighting such as candles or torches.")]
+    public GameObject[] RoomLights;
+
+    [Tooltip("Large room lighting such as campfires.")]
+    public GameObject[] LargeRoomLights;
+
+    [Tooltip("Theme-specific feature lights such as crystals.")]
+    public GameObject[] FeatureLights;
+
+    [Range(0f, 1f)]
+    public float RoomLightChance = 0.30f;
+
+    [Range(0f, 1f)]
+    public float LargeRoomLightChance = 0.80f;
 
     [Header("Generation")]
 
@@ -57,4 +79,22 @@ public class EnvironmentTheme : ScriptableObject
 
     [Header("Preview")]
     public Color PreviewColour = Color.white;
+
+    [Header("Wall Lighting")]
+
+    [Tooltip("Wall mounted torches, sconces etc.")]
+    public GameObject[] WallLightPrefabs;
+
+    [Range(0f, 1f)]
+    public float WallLightChance = 0.15f;
+
+    public float WallLightHeight = 1.8f;
+
+    [Tooltip("Distance wall-mounted lights are placed away from the wall.")]
+    public float WallLightOffset = 0.12f;
+
+    [Header("Floor Lighting")]
+
+    public GameObject[] FloorLightPrefabs;
+
 }
