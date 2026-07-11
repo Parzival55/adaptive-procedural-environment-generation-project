@@ -96,6 +96,8 @@ public class GridRenderer : MonoBehaviour
                     z * cellSize);
 
                 // Theme-specific wall offset
+                // walls may need to be offset forward to align with the floor, depending on the asset used
+
                 if (cell.Type == CellType.Wall)
                 {
                     position += rotation *
@@ -213,27 +215,33 @@ public class GridRenderer : MonoBehaviour
     private bool IsCorner(GridCell[,] grid, int x, int z)
     {
         // This must be a wall
+
         if (!IsWall(grid, x, z))
             return false;
 
         // Check the four diagonal floor corners
+        // Debug area for corner detection - More than likely asset dependent
 
         // Bottom Left
+
         if (IsWalkable(grid, x + 1, z) &&
             IsWalkable(grid, x, z + 1))
             return true;
 
         // Bottom Right
+
         if (IsWalkable(grid, x - 1, z) &&
             IsWalkable(grid, x, z + 1))
             return true;
 
         // Top Left
+
         if (IsWalkable(grid, x + 1, z) &&
             IsWalkable(grid, x, z - 1))
             return true;
 
         // Top Right
+
         if (IsWalkable(grid, x - 1, z) &&
             IsWalkable(grid, x, z - 1))
             return true;

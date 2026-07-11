@@ -1,5 +1,8 @@
 using UnityEngine;
 
+// Theme for the environment generation system. Contains prefabs and settings for floor, walls, corridors, lighting, and other features.
+// 
+
 [CreateAssetMenu(
     fileName = "New Environment Theme",
     menuName = "Environment Toolkit/Environment Theme")]

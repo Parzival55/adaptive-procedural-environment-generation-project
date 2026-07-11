@@ -2,6 +2,8 @@ using UnityEngine;
 using System.IO;
 public static class LayoutExporter
 {
+    //Exports the layout data to a JSON file in the Exports folder
+    // Export for dev use elsewhere?
     public static void Export(LayoutData layout, string fileName)
     {
         string json = JsonUtility.ToJson(layout, true);

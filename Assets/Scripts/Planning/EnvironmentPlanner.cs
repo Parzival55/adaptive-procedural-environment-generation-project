@@ -24,6 +24,7 @@ public class EnvironmentPlanner
         List<PlannedSpace> mainPath = new List<PlannedSpace>();
 
         // Spawn
+
         PlannedSpace spawn = new PlannedSpace(SpaceType.Spawn);
         plan.Spaces.Add(spawn);
         mainPath.Add(spawn);
@@ -54,6 +55,7 @@ public class EnvironmentPlanner
         }
 
         // Exit
+
         if (gameplay.GenerateExit)
         {
             PlannedSpace exit = new PlannedSpace(SpaceType.Exit);
@@ -64,6 +66,7 @@ public class EnvironmentPlanner
         }
 
         // Reward branches
+
         if (gameplay.GenerateRewardAreas)
         {
             int branchCount = Mathf.Max(2, mainPathLength / 4);
@@ -89,7 +92,8 @@ public class EnvironmentPlanner
             }
         }
 
-        // Extra side rooms
+        // Extra side rooms - Invisible generation? - planned for future expansion
+
         int sideRooms = Mathf.Max(2, mainPathLength / 3);
 
         for (int i = 0; i < sideRooms; i++)

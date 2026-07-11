@@ -19,10 +19,13 @@ public static class ThemeFloorLighting
         foreach (Room room in rooms)
         {
             // Skip tiny rooms
+            // Toggle through Inspector Theme
+
             if (room.Width < 10 || room.Height < 10)
                 continue;
 
             // Chance to place a floor light
+
             if (Random.value > 0.65f)
                 continue;
 
@@ -36,6 +39,7 @@ public static class ThemeFloorLighting
             Vector2Int centre = room.Center;
 
             // Small random offset so everything isn't perfectly centred
+
             Vector2 offset = Random.insideUnitCircle * 2f;
 
             Vector3 position = new Vector3(

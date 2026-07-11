@@ -20,10 +20,9 @@ public class GenerationPipeline
             }
         }
 
-        // -----------------------------
+        
         // Create a default gameplay definition
-        // (Temporary until requests are fully integrated)
-        // -----------------------------
+        
 
         GameplayDefinition gameplay =
             ScriptableObject.CreateInstance<GameplayDefinition>();
@@ -41,9 +40,9 @@ public class GenerationPipeline
         gameplay.MinimumSpaces = settings.RoomCount - 2;
         gameplay.MaximumSpaces = settings.RoomCount + 2;
 
-        // -----------------------------
-        //        logical plan
-        // -----------------------------
+
+        //      plan
+
 
         EnvironmentPlanner planner =
             new EnvironmentPlanner();
@@ -52,11 +51,12 @@ public class GenerationPipeline
             planner.CreatePlan(gameplay);
 
         // Debug
+
         PlanningDebugger.Print(plan);
 
-        // -----------------------------
+        
         // Build rooms from the plan
-        // -----------------------------
+        
 
         EnvironmentBuilder builder =
             new EnvironmentBuilder();
@@ -66,18 +66,18 @@ public class GenerationPipeline
             settings.GridWidth,
             settings.GridHeight);
 
-        // -----------------------------
+
         // Carve rooms
-        // -----------------------------
+
 
         foreach (Room room in rooms)
         {
             RoomCarver.CarveRoom(grid, room);
         }
 
-        // -----------------------------
+        
         // Corridors
-        // -----------------------------
+        
 
         CorridorGenerator corridorGenerator =
             new CorridorGenerator();
@@ -86,9 +86,9 @@ public class GenerationPipeline
             grid,
             rooms);
 
-        // -----------------------------
+        
         // Walls
-        // -----------------------------
+       
 
         WallGenerator wallGenerator =
             new WallGenerator();

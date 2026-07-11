@@ -66,6 +66,8 @@ public class GridManager : MonoBehaviour
         stopwatch.Start();
 
         // Initialise seed
+        // Check seed
+
         if (request.UseRandomSeed)
         {
             SeedManager.GenerateRandomSeed();
@@ -76,9 +78,11 @@ public class GridManager : MonoBehaviour
         }
 
         // Get adaptive settings
+
         GenerationSettings settings = ProfileManager.GetSettings(profile);
 
         // Apply settings
+
         width = settings.GridWidth;
         height = settings.GridHeight;
 
@@ -87,21 +91,25 @@ public class GridManager : MonoBehaviour
         maximumRoomSize = settings.MaximumRoomSize;
 
         // Clear previous environment only if rendering
+
         if (render)
             gridRenderer.ClearEnvironment();
 
         // Generate environment
+
         Grid = generationPipeline.Generate(
             settings,
             out rooms);
 
         // Render only if requested
+
         if (render)
             gridRenderer.RenderGrid();
 
         stopwatch.Stop();
 
         // Calculate statistics
+
         GenerationStatistics statistics =
             StatisticsCalculator.Calculate(
                 Grid,
@@ -110,6 +118,7 @@ public class GridManager : MonoBehaviour
                 stopwatch.ElapsedMilliseconds);
 
         // Update UI only if rendering
+
         if (render && statisticsDisplay != null)
         {
             statisticsDisplay.UpdateDisplay(
@@ -127,7 +136,8 @@ public class GridManager : MonoBehaviour
             layout,
             "LatestLayout");
 
-        // Console output
+        // Console output - seed log button??
+
         UnityEngine.Debug.Log(
 $@"===== Generation Statistics =====
 

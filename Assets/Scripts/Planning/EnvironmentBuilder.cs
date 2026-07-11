@@ -1,6 +1,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+// Builds an environment layout based on a given plan and map dimensions.
+
 public class EnvironmentBuilder
 {
     private const int CellSpacing = 20;

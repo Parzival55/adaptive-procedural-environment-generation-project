@@ -22,10 +22,12 @@ public static class ThemeLighting
                     continue;
 
                 // Don't place beside walls
+
                 if (AdjacentToWall(grid, x, z))
                     continue;
 
                 // Small room lighting
+
                 if (theme.RoomLights != null &&
                     theme.RoomLights.Length > 0 &&
                     Random.value < theme.RoomLightChance)
@@ -40,7 +42,8 @@ public static class ThemeLighting
                     continue;
                 }
 
-                // Large feature lighting / asset store
+                // Large feature lighting / asset store - Kenney's assets
+
                 if (theme.LargeRoomLights != null &&
                     theme.LargeRoomLights.Length > 0 &&
                     Random.value < theme.LargeRoomLightChance * 0.05f)
@@ -55,7 +58,8 @@ public static class ThemeLighting
                     continue;
                 }
 
-                // Feature lights assets imported from the asset store
+                // Feature lights assets imported from the asset store - Kenneys Assets
+
                 if (theme.FeatureLights != null &&
                     theme.FeatureLights.Length > 0 &&
                     Random.value < 0.01f)
