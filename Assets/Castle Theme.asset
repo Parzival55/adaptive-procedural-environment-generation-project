@@ -39,12 +39,21 @@ MonoBehaviour:
   - {fileID: 919132149155446097, guid: b3dc09a65081bd4458d36ba260e1b9b6, type: 3}
   - {fileID: 919132149155446097, guid: fd75eab5d79e7984c92758b28eb9618c, type: 3}
   - {fileID: 1162171808112565666, guid: 159ce2de46ba64a489f7d0f284f10fa8, type: 3}
+  - {fileID: 3377260559590378100, guid: ddb432c388dc5e147aa5c5f51be882c5, type: 3}
+  - {fileID: 3377260559590378100, guid: ddb432c388dc5e147aa5c5f51be882c5, type: 3}
+  - {fileID: 3377260559590378100, guid: ddb432c388dc5e147aa5c5f51be882c5, type: 3}
+  - {fileID: 3377260559590378100, guid: ddb432c388dc5e147aa5c5f51be882c5, type: 3}
+  - {fileID: 8653036968298006853, guid: 132db884e5c65af478cfd5a0b252e013, type: 3}
+  - {fileID: 8653036968298006853, guid: 132db884e5c65af478cfd5a0b252e013, type: 3}
+  - {fileID: 8653036968298006853, guid: 132db884e5c65af478cfd5a0b252e013, type: 3}
+  - {fileID: 8653036968298006853, guid: 132db884e5c65af478cfd5a0b252e013, type: 3}
   RoomLights:
   - {fileID: 6443418055870739166, guid: acbaa66018b812141969947e2a895c58, type: 3}
   - {fileID: 3883959030815111554, guid: 6e3b9744da3821a41983e26cb4deda56, type: 3}
   LargeRoomLights:
   - {fileID: 919132149155446097, guid: 0e96646baccd37c45b0742740c8293cf, type: 3}
-  FeatureLights: []
+  FeatureLights:
+  - {fileID: 8653036968298006853, guid: 132db884e5c65af478cfd5a0b252e013, type: 3}
   RoomLightChance: 0.3
   LargeRoomLightChance: 0.8
   LargeHallChance: 0.15
