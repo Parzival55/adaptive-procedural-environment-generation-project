@@ -13,29 +13,65 @@ MonoBehaviour:
   m_Name: Castle Theme
   m_EditorClassIdentifier: Assembly-CSharp::EnvironmentTheme
   ThemeName: Medieval Theme
-  FloorPrefab: {fileID: 919132149155446097, guid: 6d34204dfc5086f40b294171f9c92e89, type: 3}
+  FloorPrefab: {fileID: 4284585188899870595, guid: 4a6cd0be7cc5a6a408d88b8b29fb5124, type: 3}
   SecondaryFloorPrefab: {fileID: 919132149155446097, guid: 5c513aa6a1978fa4397121b969aab9d4, type: 3}
   SecondaryFloorChance: 0.15
   CorridorFloorPrefab: {fileID: 919132149155446097, guid: 887dfd21235cf0a4e80d99ae93c17030, type: 3}
-  CorridorWallPrefab: {fileID: 919132149155446097, guid: d31a4aa860be75547ad4db81243bb68c, type: 3}
+  CorridorWallPrefab: {fileID: 0}
   GatewayPrefab: {fileID: 919132149155446097, guid: 34714faac2cf38a42a8f87bccfb61438, type: 3}
-  WallPrefab: {fileID: 919132149155446097, guid: d53e1d1174857fd489619f1bcbf0c853, type: 3}
-  SecondaryWallPrefab: {fileID: 919132149155446097, guid: a5dfa41ccfa39d24c9140b0660a6a7af, type: 3}
-  CornerWallPrefab: {fileID: 1364478132116189653, guid: 26161e24fe31f00418cec9c169102ad2, type: 3}
+  WallPrefab: {fileID: 3717579440606261167, guid: e92f28a0fc6621d4f937f31c446add2d, type: 3}
+  SecondaryWallPrefab: {fileID: 3237454894431267763, guid: 167f6599052f9324cb51cdfc8df4e0cb, type: 3}
+  CornerWallPrefab: {fileID: 3717579440606261167, guid: e92f28a0fc6621d4f937f31c446add2d, type: 3}
+  CornerOffset: {x: 0, y: 0, z: 0}
   SecondaryWallChance: 0.15
-  WallHeightMultiplier: 1
+  WallHeightMultiplier: 1.359
+  WallForwardOffset: 0
   PillarPrefab: {fileID: 919132149155446097, guid: d116b9924d517c74e9bb3519c1e52588, type: 3}
   DecorationPrefabs:
   - {fileID: 919132149155446097, guid: dbcec71fb5c7cdf428540e3d3c44a949, type: 3}
   - {fileID: 919132149155446097, guid: e7e0cae0764986c4bb3c71881be5891a, type: 3}
-  - {fileID: 919132149155446097, guid: 35957628306f2f749a7273db12bead88, type: 3}
+  - {fileID: 5505127801724624002, guid: 9024ca280f806ce44adbd9bcfcda2f77, type: 3}
   - {fileID: 919132149155446097, guid: 915adf463c1bf2d44b57fe2a86ec9785, type: 3}
   - {fileID: 919132149155446097, guid: b69df8171e7244a42bea51ce3cdb52d3, type: 3}
   - {fileID: 919132149155446097, guid: 5c6fbc6c124127546994fd652080a4a1, type: 3}
+  - {fileID: 1064214438493422201, guid: 9523e2f8cbbc1a645a5243a865fc4f5a, type: 3}
+  - {fileID: 8786916817191463864, guid: 882df98194f777d45953fc208ab384df, type: 3}
+  - {fileID: 919132149155446097, guid: b3dc09a65081bd4458d36ba260e1b9b6, type: 3}
+  - {fileID: 919132149155446097, guid: fd75eab5d79e7984c92758b28eb9618c, type: 3}
+  - {fileID: 1162171808112565666, guid: 159ce2de46ba64a489f7d0f284f10fa8, type: 3}
+  RoomLights:
+  - {fileID: 6443418055870739166, guid: acbaa66018b812141969947e2a895c58, type: 3}
+  - {fileID: 3883959030815111554, guid: 6e3b9744da3821a41983e26cb4deda56, type: 3}
+  LargeRoomLights:
+  - {fileID: 919132149155446097, guid: 0e96646baccd37c45b0742740c8293cf, type: 3}
+  FeatureLights: []
+  RoomLightChance: 0.3
+  LargeRoomLightChance: 0.8
   LargeHallChance: 0.15
   LShapeChance: 0.2
   PillarChance: 0.25
   UsePillars: 1
   UseHazards: 1
   UseProps: 1
+  SpawnRoomPrefabs:
+  - {fileID: 5212231183949490210, guid: 3123b7244a717cf408d70a9031d8e1df, type: 3}
+  HubRoomPrefabs:
+  - {fileID: 7730801510543729392, guid: 9606b79d3fef04d40a2510d41831d811, type: 3}
+  RewardRoomPrefabs:
+  - {fileID: 1821718277425735204, guid: 19489ee2a3e3b214aa18f2f5975cf67d, type: 3}
+  ObjectiveRoomPrefabs:
+  - {fileID: 2393161040516350848, guid: 0fafe2a7ca2d3a547a0685b6ce1022bf, type: 3}
+  ExitRoomPrefabs:
+  - {fileID: 3377260559590378100, guid: ddb432c388dc5e147aa5c5f51be882c5, type: 3}
   PreviewColour: {r: 1, g: 1, b: 1, a: 1}
+  WallLightPrefabs:
+  - {fileID: 919132149155446097, guid: fcc639ee610cb0f4a914fa108b8e54be, type: 3}
+  - {fileID: 268419828834974770, guid: 6ca81f8e804de8c4e8a057edb47e84af, type: 3}
+  WallLightChance: 0.15
+  WallLightHeight: 0.68
+  WallLightOffset: -0.38
+  FloorLightPrefabs:
+  - {fileID: 8653036968298006853, guid: 132db884e5c65af478cfd5a0b252e013, type: 3}
+  - {fileID: 8594949326525614118, guid: 379c92303d62f9c4fa143f4305675a4f, type: 3}
+  - {fileID: 6970068302701977337, guid: bcc967e989b3ada48a87e7797129fa93, type: 3}
+  - {fileID: 919132149155446097, guid: 35d2398ae5624c84ea41acd39155650e, type: 3}

@@ -17,24 +17,56 @@ MonoBehaviour:
   SecondaryFloorPrefab: {fileID: 919132149155446097, guid: c5d08affb361790488a483036a01a0a9, type: 3}
   SecondaryFloorChance: 0.15
   CorridorFloorPrefab: {fileID: 0}
-  CorridorWallPrefab: {fileID: 919132149155446097, guid: 4b68e1632af2f5647af5fb51161665e4, type: 3}
+  CorridorWallPrefab: {fileID: 0}
   GatewayPrefab: {fileID: 919132149155446097, guid: 8182da340a279174bb12166c74b3ba58, type: 3}
-  WallPrefab: {fileID: 919132149155446097, guid: 34aea74aaf0404d44bdacc4d2db10a92, type: 3}
-  SecondaryWallPrefab: {fileID: 919132149155446097, guid: 6cf4454f93c77434ca720bbc0724c81a, type: 3}
-  CornerWallPrefab: {fileID: 919132149155446097, guid: 5232945754125d34e881426c1473378f, type: 3}
+  WallPrefab: {fileID: 919132149155446097, guid: 4f2594fbae2f30b4a97876586ebef8be, type: 3}
+  SecondaryWallPrefab: {fileID: 0}
+  CornerWallPrefab: {fileID: 0}
+  CornerOffset: {x: 0, y: 0, z: 0}
   SecondaryWallChance: 0.15
   WallHeightMultiplier: 1.346
+  WallForwardOffset: 1.06
   PillarPrefab: {fileID: 919132149155446097, guid: 7437ae57e7a8311439c07fdf85887733, type: 3}
   DecorationPrefabs:
-  - {fileID: 919132149155446097, guid: a8fd9a2f511214b4091ed8c08ec4f1c0, type: 3}
+  - {fileID: 919132149155446097, guid: 65708c1fe25752e49b77fcd8c8f91efa, type: 3}
   - {fileID: 919132149155446097, guid: a7f654377bf9bdc44a5091bf1c58f39b, type: 3}
   - {fileID: 919132149155446097, guid: 5e77d031c1aad2640b080e7027f1e892, type: 3}
   - {fileID: 919132149155446097, guid: 07706f979d418d94ea308a8b5d736af3, type: 3}
   - {fileID: 919132149155446097, guid: 1ba0cf48eeb4bec43b190f04beeba84c, type: 3}
+  - {fileID: 919132149155446097, guid: 4be89727c77caaa4abc2b2d77df5255e, type: 3}
+  - {fileID: 919132149155446097, guid: 4be89727c77caaa4abc2b2d77df5255e, type: 3}
+  RoomLights: []
+  LargeRoomLights:
+  - {fileID: 6970068302701977337, guid: bcc967e989b3ada48a87e7797129fa93, type: 3}
+  - {fileID: 919132149155446097, guid: 706013266bb91c14083089120d2feab2, type: 3}
+  FeatureLights: []
+  RoomLightChance: 0.3
+  LargeRoomLightChance: 0.8
   LargeHallChance: 0.15
-  LShapeChance: 0.269
+  LShapeChance: 0.137
   PillarChance: 0.454
   UsePillars: 1
   UseHazards: 1
   UseProps: 1
+  SpawnRoomPrefabs:
+  - {fileID: 919132149155446097, guid: 30f503ed739e72345aff6c40f62d54b1, type: 3}
+  HubRoomPrefabs:
+  - {fileID: 7730801510543729392, guid: 9606b79d3fef04d40a2510d41831d811, type: 3}
+  RewardRoomPrefabs:
+  - {fileID: 6970068302701977337, guid: bcc967e989b3ada48a87e7797129fa93, type: 3}
+  ObjectiveRoomPrefabs:
+  - {fileID: 8921445094798320865, guid: d25ae18704e95fd40b438ece72424542, type: 3}
+  ExitRoomPrefabs:
+  - {fileID: 4500149671686519578, guid: 79c72e6e379270143aaf373533c3eadb, type: 3}
   PreviewColour: {r: 1, g: 1, b: 1, a: 1}
+  WallLightPrefabs:
+  - {fileID: 3787465495826125525, guid: 5625abbb9b09ca5419edd1ab9f0839d3, type: 3}
+  - {fileID: 268419828834974770, guid: 6ca81f8e804de8c4e8a057edb47e84af, type: 3}
+  WallLightChance: 0.15
+  WallLightHeight: 1.8
+  WallLightOffset: -0.46
+  FloorLightPrefabs:
+  - {fileID: 8594949326525614118, guid: 379c92303d62f9c4fa143f4305675a4f, type: 3}
+  - {fileID: 8653036968298006853, guid: 132db884e5c65af478cfd5a0b252e013, type: 3}
+  - {fileID: 7772512676319129344, guid: 8dc54d6d3a990504c8f8585ff986dc78, type: 3}
+  - {fileID: 919132149155446097, guid: e3d39308bb4f462419159af73f12ce14, type: 3}

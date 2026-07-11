@@ -25,6 +25,11 @@ public class EnvironmentTheme : ScriptableObject
     public GameObject SecondaryWallPrefab;
     public GameObject CornerWallPrefab;
 
+    [Header("Corner Placement")]
+
+    [Tooltip("Offset applied only to corner wall prefabs.")]
+    public Vector3 CornerOffset = Vector3.zero;
+
     [Tooltip("Chance of spawning a secondary wall variation.")]
     [Range(0f, 1f)]
     public float SecondaryWallChance = 0.15f;

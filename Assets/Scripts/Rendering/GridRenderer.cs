@@ -103,6 +103,12 @@ public class GridRenderer : MonoBehaviour
                                 currentTheme.WallForwardOffset;
                 }
 
+                if (prefab == currentTheme.CornerWallPrefab)
+                {
+                    position += rotation * currentTheme.CornerOffset;
+                }
+
+
                 GameObject instance = Instantiate(
                     prefab,
                     position,
@@ -123,6 +129,8 @@ public class GridRenderer : MonoBehaviour
                         position,
                         rotation);
                 }
+
+                
 
                 if (cell.Type == CellType.Corridor &&
                     currentTheme.GatewayPrefab != null &&
@@ -204,35 +212,52 @@ public class GridRenderer : MonoBehaviour
 
     private bool IsCorner(GridCell[,] grid, int x, int z)
     {
-        bool north = IsWall(grid, x, z + 1);
-        bool south = IsWall(grid, x, z - 1);
-        bool east = IsWall(grid, x + 1, z);
-        bool west = IsWall(grid, x - 1, z);
+        // This must be a wall
+        if (!IsWall(grid, x, z))
+            return false;
 
-        return (north && east) ||
-               (east && south) ||
-               (south && west) ||
-               (west && north);
+        // Check the four diagonal floor corners
+
+        // Bottom Left
+        if (IsWalkable(grid, x + 1, z) &&
+            IsWalkable(grid, x, z + 1))
+            return true;
+
+        // Bottom Right
+        if (IsWalkable(grid, x - 1, z) &&
+            IsWalkable(grid, x, z + 1))
+            return true;
+
+        // Top Left
+        if (IsWalkable(grid, x + 1, z) &&
+            IsWalkable(grid, x, z - 1))
+            return true;
+
+        // Top Right
+        if (IsWalkable(grid, x - 1, z) &&
+            IsWalkable(grid, x, z - 1))
+            return true;
+
+        return false;
     }
 
     private Quaternion GetCornerRotation(GridCell[,] grid, int x, int z)
     {
-        bool north = IsWall(grid, x, z + 1);
-        bool south = IsWall(grid, x, z - 1);
-        bool east = IsWall(grid, x + 1, z);
-        bool west = IsWall(grid, x - 1, z);
-
-        if (north && east)
+        if (IsWalkable(grid, x + 1, z) &&
+            IsWalkable(grid, x, z + 1))
             return Quaternion.Euler(0, 270, 0);
 
-        if (east && south)
-            return Quaternion.Euler(0, 0, 0);
+        if (IsWalkable(grid, x - 1, z) &&
+            IsWalkable(grid, x, z + 1))
+            return Quaternion.Euler(0, 180, 0);
 
-        if (south && west)
+        if (IsWalkable(grid, x - 1, z) &&
+            IsWalkable(grid, x, z - 1))
             return Quaternion.Euler(0, 90, 0);
 
-        if (west && north)
-            return Quaternion.Euler(0, 180, 0);
+        if (IsWalkable(grid, x + 1, z) &&
+            IsWalkable(grid, x, z - 1))
+            return Quaternion.identity;
 
         return Quaternion.identity;
     }
